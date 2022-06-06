@@ -21,6 +21,22 @@ app.get('/api/get', (req, res) => {
   });
 });
 
+app.get('/api/get/users', (req, res) => {
+  const sqlSelect = 'SELECT Username FROM users;';
+  db.query(sqlSelect, (err, result) => {
+    console.log(result);
+    res.send(result);
+  });
+});
+
+app.get('/api/get/passwords', (req, res) => {
+  const sqlSelect = 'SELECT Password FROM users;';
+  db.query(sqlSelect, (err, result) => {
+    console.log(result);
+    res.send(result);
+  });
+});
+
 app.post('/api/insert', (req, res) => {
   const productName = req.body.productName;
   const productDesc = req.body.productDesc;
@@ -45,6 +61,7 @@ app.post('/api/signup', (req, res) => {
   db.query(sqlSignUp, [username, password], (err, result) => {
     console.log(result);
   });
+  res.send('yee');
 });
 
 app.get('/', (req, res) => {
@@ -54,6 +71,14 @@ app.get('/', (req, res) => {
     res.send(result);
   });
 });
+
+app.get('/api/get/toets', (req, res) => {
+  console.log('toets clicked');
+  res.send('yee');
+});
+
+app.get('/api/check/login', (req, res) => {});
+
 app.listen(3001, () => {
   console.log('running on 3001');
 });
