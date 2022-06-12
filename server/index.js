@@ -3,6 +3,7 @@ const app = express();
 const bodyParser = require('body-parser');
 const mysql = require('mysql');
 const cors = require('cors');
+const { response } = require('express');
 const db = mysql.createPool({
   host: 'localhost',
   user: 'root',
@@ -17,6 +18,7 @@ app.use(cors());
 app.get('/api/get', (req, res) => {
   const sqlSelect = 'SELECT * FROM products';
   db.query(sqlSelect, (err, result) => {
+    console.log('Get is called');
     res.send(result);
   });
 });
@@ -24,7 +26,7 @@ app.get('/api/get', (req, res) => {
 app.get('/api/get/users', (req, res) => {
   const sqlSelect = 'SELECT Username FROM users;';
   db.query(sqlSelect, (err, result) => {
-    console.log(result);
+    //console.log(result);
     res.send(result);
   });
 });
@@ -32,7 +34,17 @@ app.get('/api/get/users', (req, res) => {
 app.get('/api/get/passwords', (req, res) => {
   const sqlSelect = 'SELECT Password FROM users;';
   db.query(sqlSelect, (err, result) => {
-    console.log(result);
+    //console.log(result);
+    res.send(result);
+  });
+});
+
+app.post('/api/search', (req, res) => {
+  const search_tag = req.body.search_tag;
+  const sqlSearch =
+    "SELECT * FROM products WHERE P_Name LIKE '%" + search_tag + "%';";
+  db.query(sqlSearch, search_tag, (err, result) => {
+    console.log(sqlSearch);
     res.send(result);
   });
 });
